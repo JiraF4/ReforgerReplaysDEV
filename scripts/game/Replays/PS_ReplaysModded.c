@@ -1,6 +1,20 @@
-// vehicles replay hook
+
 modded class SCR_EditableVehicleComponent
 {
+	RplId m_iRemoveRpl;
+	void ~SCR_EditableVehicleComponent()
+	{
+		if (!Replication.IsServer())
+			return;
+		
+		BaseGameMode gamemode = GetGame().GetGameMode();
+		if (!gamemode)
+			return;
+		
+		RplComponent rpl = RplComponent.Cast(this.FindComponent(RplComponent));
+		PS_ReplayWriter.GetInstance().WriteEntityDelete(m_iRemoveRpl);
+	}
+	
 	override void OnPostInit(IEntity owner)
 	{
 		super.OnPostInit(owner);
@@ -21,6 +35,8 @@ modded class SCR_EditableVehicleComponent
 		Faction faction = factionComponent.GetDefaultAffiliatedFaction();
 		replayWriter.WriteVehicleRegistration(rplId, uIInfo.GetName(), vehicle.m_eVehicleType, faction.GetFactionKey());
 		
+		m_iRemoveRpl = Rpl.Id();
+		
 		GetGame().GetCallqueue().CallLater(PositionLogger, 100, false, rplId, owner);
 	}
 	
@@ -34,6 +50,20 @@ modded class SCR_EditableVehicleComponent
 
 modded class SCR_ChimeraCharacter 
 {
+	void ~SCR_ChimeraCharacter()
+	{
+		
+		if (!Replication.IsServer())
+			return;
+		
+		BaseGameMode gamemode = GetGame().GetGameMode();
+		if (!gamemode)
+			return;
+		
+		RplComponent rpl = RplComponent.Cast(this.FindComponent(RplComponent));
+		PS_ReplayWriter.GetInstance().WriteEntityDelete(rpl.Id());
+	}
+	
 	override void EOnInit(IEntity owner)
 	{
 		super.EOnInit(this);

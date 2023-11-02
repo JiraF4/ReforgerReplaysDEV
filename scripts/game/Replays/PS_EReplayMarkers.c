@@ -11,6 +11,7 @@ enum PS_EReplayType
 	CharacterUnBoardVehicle,
 	ProjectileShoot,
 	Explosion,
+	EntityDelete,
 	//...
 }
 
@@ -72,4 +73,7 @@ enum PS_EReplayVehicleType
 	float - hit position x
 	float - hit position z
 	float - Impulse distance
+
+	EntityDelete
+	int - RplId entity entity
 */

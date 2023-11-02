@@ -283,6 +283,21 @@ class PS_MapMenuUIReplayView: ChimeraMenuBase
 					explosionHandler.SetImpule(positionx, positionz, impulse);
 					m_hExplosionMarkers.Insert(explosionHandler);
 					break;
+				case PS_EReplayType.EntityDelete:
+					RplId entityId;
+				
+					replayFile.Read(entityId, 4);
+					m_iCurrentReplayPosition += 4;
+					
+					if (m_hEntitiesMarkers.Contains(entityId))
+					{
+						PS_MapMarkerReplayEntityComponent entityHandler = m_hEntitiesMarkers[entityId];
+						Widget entitieWidget = entityHandler.GetRootWidget();
+						m_hEntitiesMarkers.Remove(entityId);
+						Widget mapFrame = m_MapEntity.GetMapMenuRoot().FindAnyWidget(SCR_MapConstants.MAP_FRAME_NAME);
+						mapFrame.RemoveChild(entitieWidget);
+					}
+					break;
 			}
 		}
 	}

@@ -198,4 +198,15 @@ class PS_ReplayWriter : ScriptComponent
 		replayFile.Write(hitPositionz, 4); // hitPositionz
 		replayFile.Write(impulseDistance, 4); // impulseDistance
 	}
+	
+	// PS_EReplayType.EntityDelete
+	void WriteEntityDelete(RplId characteRplId)
+	{
+		if (!Replication.IsServer()) return;
+		TryInsertTimeStamp();
+		
+		FileHandle replayFile = FileIO.OpenFile(m_sReplayFileName, FileMode.APPEND);
+		replayFile.Write(PS_EReplayType.EntityDelete, 1); // only one byte for type
+		replayFile.Write(characteRplId, 4); // rplId
+	}
 }
