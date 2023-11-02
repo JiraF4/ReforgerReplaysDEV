@@ -1,4 +1,16 @@
 
+modded class SCR_BaseGameMode
+{
+	override void EOnInit(IEntity owner)
+	{
+		if (!PS_ReplayWriter.GetInstance())
+		{
+			PS_ReplayWriter replayWriter = new PS_ReplayWriter();
+		}
+	}
+}
+
+
 modded class SCR_EditableVehicleComponent
 {
 	RplId m_iRemoveRpl;
@@ -44,7 +56,7 @@ modded class SCR_EditableVehicleComponent
 	{
 		// Regulary write position to replay
 		PS_ReplayWriter.GetInstance().WriteEntityMove(rplId, owner);
-		GetGame().GetCallqueue().CallLater(PositionLogger, 100, false, rplId, owner);
+		GetGame().GetCallqueue().CallLater(PositionLogger, 500, false, rplId, owner);
 	}
 }
 
@@ -86,7 +98,7 @@ modded class SCR_ChimeraCharacter
 	protected void PositionLogger(RplId rplId)
 	{
 		PS_ReplayWriter.GetInstance().WriteEntityMove(rplId, this);
-		GetGame().GetCallqueue().CallLater(PositionLogger, 100, false, rplId);
+		GetGame().GetCallqueue().CallLater(PositionLogger, 500, false, rplId);
 	}
 	
 	protected void DieLogger(EDamageState state)
