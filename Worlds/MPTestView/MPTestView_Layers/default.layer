@@ -1,0 +1,9 @@
+SCR_MapEntity MapEntity_Everon1 : "{E1B88C66BF6CA1F9}Prefabs/World/Game/MapEntity_Everon.et" {
+ coords 33.531 1 39.579
+}
+SCR_FactionManager FactionManager_Editor1 : "{4A188E44289B9A50}Prefabs/MP/Managers/Factions/FactionManager_Editor.et" {
+ coords 50.598 1 36.042
+}
+PS_GameModeReplayView PS_GameModeReplayView1 : "{92AD377C6AD68CDA}PS_GameModeReplayView.et" {
+ coords 44.087 1 49.215
+}

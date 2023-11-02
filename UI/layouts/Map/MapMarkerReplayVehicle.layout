@@ -1,0 +1,52 @@
+FrameWidgetClass {
+ Name "rootFrame"
+ Slot FrameWidgetSlot "{5D2691F3AE61A7FC}" {
+  OffsetLeft 0
+  OffsetTop 0
+  SizeX 0
+  OffsetRight 0
+  SizeY 0
+  OffsetBottom 0
+  Alignment 0.5 0.5
+ }
+ "Z Order" 60
+ Clipping False
+ "Ignore Cursor" 0
+ components {
+  PS_MapMarkerReplayVehicleComponent "{5EC2E975480AEDDC}" {
+  }
+ }
+ {
+  FrameWidgetClass "{5EC2E975B3DA3602}" {
+   Name "FrameWidget"
+   Slot FrameWidgetSlot "{5EC2DB247A340621}" {
+   }
+   {
+    ImageWidgetClass "{5EC2E975B3DA3604}" {
+     Name "MarkerIcon"
+     Slot FrameWidgetSlot "{5EBA31A375C286D9}" {
+      PositionX 0
+      OffsetLeft 0
+      PositionY 0
+      OffsetTop 0
+      SizeX 60
+      OffsetRight -60
+      SizeY 60
+      OffsetBottom -60
+     }
+     Clipping False
+     Texture "{2EFEA2AF1F38E7F0}UI/Textures/Icons/icons_wrapperUI-64.imageset"
+     Image "subscribe"
+     Size 64 64
+    }
+    TextWidgetClass "{5EC2E975B3DA3605}" {
+     Name "EntityNameText"
+     Slot FrameWidgetSlot "{5EC2DB25DEFC2E9A}" {
+     }
+     "Horizontal Alignment" Center
+     "Vertical Alignment" Center
+    }
+   }
+  }
+ }
+}

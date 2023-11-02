@@ -1,0 +1,28 @@
+FrameWidgetClass {
+ Name "LineRoot"
+ Slot FrameWidgetSlot "{59BCA103F681AE9F}" {
+  OffsetLeft 0
+  OffsetTop 0
+  OffsetRight -100
+  OffsetBottom -30
+  Alignment 0 0.5
+  SizeToContent 1
+ }
+ "Z Order" 70
+ Clipping False
+ components {
+  PS_MapLineComponent "{5EBE6D58DB81108A}" {
+  }
+ }
+ {
+  ImageWidgetClass "{5EBE6D5DC5C61128}" {
+   Name "LineImage"
+   Slot FrameWidgetSlot "{5EBE7616BFC0D84D}" {
+   }
+   Color 0.502 0 0 1
+   Pivot 0 0.5
+   Texture "{B6A98151E97044D4}UI/Textures/Map/cursorLines/guidingLine_slice.edds"
+   Size 700 100
+  }
+ }
+}

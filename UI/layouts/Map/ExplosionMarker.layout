@@ -1,0 +1,53 @@
+FrameWidgetClass {
+ Name "rootFrame"
+ Slot FrameWidgetSlot "{5D2691F3AE61A7FC}" {
+  OffsetLeft 0
+  OffsetTop 0
+  SizeX 1
+  OffsetRight -1
+  SizeY 1
+  OffsetBottom -1
+  Alignment 0.5 0.5
+ }
+ "Z Order" 60
+ Clipping False
+ "Ignore Cursor" 0
+ components {
+  PS_ExplosionMarker "{5EC2D7583ECF9F6E}" {
+  }
+ }
+ {
+  FrameWidgetClass "{5EC2D759DC305433}" {
+   Name "FrameWidget"
+   Slot FrameWidgetSlot "{5EC2DB2550B610B2}" {
+    PositionX 0
+    OffsetLeft 0
+    PositionY 0
+    OffsetTop 0
+    SizeX 59.835
+    OffsetRight -59.835
+    SizeY 60.421
+    OffsetBottom -60.421
+   }
+   {
+    ImageWidgetClass "{5EC2D759DC305434}" {
+     Name "MarkerIcon"
+     Slot FrameWidgetSlot "{5EBA31A375C286D9}" {
+      PositionX 0
+      OffsetLeft 0
+      PositionY 0
+      OffsetTop 0
+      SizeX 60
+      OffsetRight -60
+      SizeY 60
+      OffsetBottom -60
+     }
+     Clipping False
+     Texture "{ED7A1DA5BC4CCBA0}UI/Icons/PS_Atlas.imageset"
+     Image "EXPLOSION"
+     Size 128 128
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{F59F55D675A3E952}UI/layouts/Map/MapMarkerReplayCharacter.layout"
+ Configurations {
+  LayoutResourceClass PC {
+  }
+  LayoutResourceClass XBOX_ONE : PC {
+  }
+  LayoutResourceClass XBOX_SERIES : PC {
+  }
+  LayoutResourceClass PS4 : PC {
+  }
+  LayoutResourceClass HEADLESS : PC {
+  }
+ }
+}

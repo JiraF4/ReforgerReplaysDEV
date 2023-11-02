@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{BF0ABC546D11E21D}Worlds/MPTestView/MPTestView.ent"
+ Configurations {
+  ENTResourceClass PC {
+  }
+  ENTResourceClass XBOX_ONE : PC {
+  }
+  ENTResourceClass XBOX_SERIES : PC {
+  }
+  ENTResourceClass PS4 : PC {
+  }
+  ENTResourceClass HEADLESS : PC {
+  }
+ }
+}

@@ -1,0 +1,20 @@
+GameProject {
+ ID "ReforgerReplaysDEV"
+ GUID "5EC4CDC7CFD66128"
+ TITLE "ReforgerReplaysDEV"
+ Dependencies {
+  "58D0FB3206B6F859" "596523840114E2D3"
+ }
+ Configurations {
+  GameProjectConfig PC {
+  }
+  GameProjectConfig HEADLESS {
+  }
+  GameProjectConfig XBOX_ONE {
+  }
+  GameProjectConfig XBOX_SERIES {
+  }
+  GameProjectConfig PS4 {
+  }
+ }
+}

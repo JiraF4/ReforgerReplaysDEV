@@ -1,0 +1,48 @@
+ImageSetClass {
+ RefSize 4096 4097
+ Textures {
+  ImageSetTextureClass {
+   screenSize FHD
+   size 4096 4097
+   path "{D7F4F37BA62107AB}UI/Icons/PS_Atlas_x128.edds"
+  }
+ }
+ Images {
+  ImageSetDefClass CAR {
+   Name "CAR"
+   Pos 3200 128
+   Size 128 128
+   Flags 0
+  }
+  ImageSetDefClass MINE {
+   Name "MINE"
+   Pos 3328 128
+   Size 128 128
+   Flags 0
+  }
+  ImageSetDefClass APC {
+   Name "APC"
+   Pos 3456 128
+   Size 128 128
+   Flags 0
+  }
+  ImageSetDefClass TUNK {
+   Name "TUNK"
+   Pos 3584 128
+   Size 128 128
+   Flags 0
+  }
+  ImageSetDefClass TRUCK {
+   Name "TRUCK"
+   Pos 3712 128
+   Size 128 128
+   Flags 0
+  }
+  ImageSetDefClass EXPLOSION {
+   Name "EXPLOSION"
+   Pos 3072 128
+   Size 128 128
+   Flags 0
+  }
+ }
+}
