@@ -59,6 +59,9 @@ modded class SCR_ChimeraCharacter
 		if (!gamemode)
 			return;
 		
+		if (!GetGame().InPlayMode())
+			return;
+		
 		RplComponent rpl = RplComponent.Cast(this.FindComponent(RplComponent));
 		PS_ReplayWriter.GetInstance().WriteEntityDelete(rpl.Id());
 	}
