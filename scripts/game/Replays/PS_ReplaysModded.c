@@ -3,6 +3,12 @@ modded class SCR_EditableVehicleComponent
 	RplId m_iRemoveRpl;
 	void ~SCR_EditableVehicleComponent()
 	{
+		if (!GetGame().InPlayMode())
+			return;
+		
+		if (!GetGame().GetWorld())
+			return;
+		
 		if (!Replication.IsServer())
 			return;
 		
@@ -51,15 +57,17 @@ modded class SCR_ChimeraCharacter
 {
 	void ~SCR_ChimeraCharacter()
 	{
+		if (!GetGame().InPlayMode())
+			return;
+		
+		if (!GetGame().GetWorld())
+			return;
 		
 		if (!Replication.IsServer())
 			return;
 		
 		BaseGameMode gamemode = GetGame().GetGameMode();
 		if (!gamemode)
-			return;
-		
-		if (!GetGame().InPlayMode())
 			return;
 		
 		RplComponent rpl = RplComponent.Cast(this.FindComponent(RplComponent));
