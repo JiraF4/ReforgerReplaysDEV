@@ -1,16 +1,3 @@
-
-modded class SCR_BaseGameMode
-{
-	override void EOnInit(IEntity owner)
-	{
-		if (!PS_ReplayWriter.GetInstance())
-		{
-			PS_ReplayWriter replayWriter = new PS_ReplayWriter();
-		}
-	}
-}
-
-
 modded class SCR_EditableVehicleComponent
 {
 	RplId m_iRemoveRpl;
