@@ -4,6 +4,14 @@ FrameWidgetClass {
   FrameWidgetClass "{5EBA0AF691A4AAD1}" : "{B7A765172F0BD4D9}UI/layouts/Common/EarlyAccessWatermark.layout" {
    Name "EarlyAccessRoot0"
    Slot FrameWidgetSlot "{5CEE96372B5D270B}" {
+    PositionX 0
+    OffsetLeft 0
+    PositionY 0
+    OffsetTop 0
+    SizeX 0
+    OffsetRight 0
+    SizeY 0
+    OffsetBottom 0
    }
    Opacity 1
   }
@@ -68,6 +76,77 @@ FrameWidgetClass {
    }
    "Z Order" 1
    "Is Visible" 0
+  }
+  OverlayWidgetClass "{5EC9375EB14A64BF}" {
+   Name "OverlayFooter"
+   Slot FrameWidgetSlot "{5EB10006FB0FA78D}" {
+    Anchor 0 1 0 1
+    PositionX 0
+    OffsetLeft 0
+    PositionY -48
+    OffsetTop -48
+    SizeX 1920
+    OffsetRight -1920
+    SizeY 48
+    OffsetBottom 0
+   }
+   {
+    HorizontalLayoutWidgetClass "{5EC9375EB14A6480}" {
+     Name "HorizontalLayout"
+     Slot OverlayWidgetSlot "{5EB10006A9111D66}" {
+      HorizontalAlign 0
+      VerticalAlign 0
+     }
+     {
+      ButtonWidgetClass "{5EC9375EB14A6482}" : "{08CF3B69CB1ACBC4}UI/layouts/WidgetLibrary/Buttons/WLib_NavigationButton.layout" {
+       Name "NavigationButtonSlower"
+       Slot LayoutSlot "{5EB100087EA225FE}" {
+        Padding 20 0 0 0
+       }
+       components {
+        SCR_NavigationButtonComponent "{5474BAC5DBCF129A}" {
+         m_sLabel "Slower"
+         m_sActionName "ChatToggle"
+        }
+       }
+       {
+        SizeLayoutWidgetClass "{5562AD435529FB36}" {
+         Prefab "{5562AD435529FB36}"
+         Slot ButtonWidgetSlot "{5562AD435529FB5D}" {
+          Padding 20 0 0 0
+         }
+        }
+       }
+      }
+      ButtonWidgetClass "{5EC9375EB14A6484}" : "{08CF3B69CB1ACBC4}UI/layouts/WidgetLibrary/Buttons/WLib_NavigationButton.layout" {
+       Name "NavigationButtonFaster"
+       Slot LayoutSlot "{5EBC737F18D3A970}" {
+       }
+       components {
+        SCR_NavigationButtonComponent "{5474BAC5DBCF129A}" {
+         m_sLabel "Faster"
+         m_sActionName "VONDirect"
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+  TextWidgetClass "{5EC9375923FAF4CE}" {
+   Name "SpeedText"
+   Slot FrameWidgetSlot "{5EC9375923FAF428}" {
+    Anchor 0 1 0 1
+    PositionX 8.427
+    OffsetLeft 8.427
+    PositionY -81.364
+    OffsetTop -81.364
+    SizeX 300.176
+    OffsetRight -308.603
+    SizeY 26.174
+    OffsetBottom 55.19
+   }
+   Text "x1"
   }
  }
 }

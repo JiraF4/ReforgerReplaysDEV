@@ -3,10 +3,10 @@ FrameWidgetClass {
  Slot FrameWidgetSlot "{5D2691F3AE61A7FC}" {
   OffsetLeft 0
   OffsetTop 0
-  SizeX 0
-  OffsetRight 0
-  SizeY 0
-  OffsetBottom 0
+  SizeX 1
+  OffsetRight -1
+  SizeY 1
+  OffsetBottom -1
   Alignment 0.5 0.5
  }
  "Z Order" 60
@@ -35,9 +35,9 @@ FrameWidgetClass {
       OffsetBottom -60
      }
      Clipping False
-     Texture "{2EFEA2AF1F38E7F0}UI/Textures/Icons/icons_wrapperUI-64.imageset"
-     Image "subscribe"
-     Size 64 64
+     Texture "{ED7A1DA5BC4CCBA0}UI/Icons/PS_Atlas.imageset"
+     Image "CHARACTER"
+     Size 128 128
     }
     TextWidgetClass "{5EBA20038C745759}" {
      Name "EntityNameText"

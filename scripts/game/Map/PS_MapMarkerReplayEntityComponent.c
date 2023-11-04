@@ -18,7 +18,7 @@ class PS_MapMarkerReplayEntityComponent : SCR_ScriptedWidgetComponent
 	float positionZ;
 	float rotationY;
 	
-	float m_fEntitySize = 2.0;
+	float m_fEntitySize = 4.0;
 	
 	override void HandlerAttached(Widget w)
 	{
@@ -76,8 +76,10 @@ class PS_MapMarkerReplayEntityComponent : SCR_ScriptedWidgetComponent
 		
 		FactionManager factionManager = GetGame().GetFactionManager();
 		SCR_Faction faction = SCR_Faction.Cast(factionManager.GetFactionByKey(factionKey));
-		if (faction)
+		if (faction) {
 			m_wMarkerIcon.SetColor(faction.GetOutlineFactionColor());
+			m_wEntityNameText.SetColor(faction.GetOutlineFactionColor());
+		}
 	}
 	
 	void Move(float positionXnew, float positionZnew, float rotationYnew)
@@ -98,7 +100,7 @@ class PS_MapMarkerReplayEntityComponent : SCR_ScriptedWidgetComponent
 	{
 		if (state == EDamageState.DESTROYED)
 		{
-			m_wMarkerIcon.LoadImageFromSet(0, "{2EFEA2AF1F38E7F0}UI/Textures/Icons/icons_wrapperUI-64.imageset", "death");
+			m_wMarkerIcon.LoadImageFromSet(0, "{ED7A1DA5BC4CCBA0}UI/Icons/PS_Atlas.imageset", "DEAD");
 		}
 	}
 	

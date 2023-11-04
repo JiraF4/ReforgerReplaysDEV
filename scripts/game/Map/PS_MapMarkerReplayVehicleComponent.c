@@ -22,6 +22,18 @@ class PS_MapMarkerReplayVehicleComponent : PS_MapMarkerReplayEntityComponent
 				m_wMarkerIcon.LoadImageFromSet(0, m_rImageSet, "TRUCK");
 				m_fEntitySize = 14;
 				break;
+			case EVehicleType.SUPPLY_TRUCK:
+				m_wMarkerIcon.LoadImageFromSet(0, m_rImageSet, "TRUCK");
+				m_fEntitySize = 14;
+				break;
+			case EVehicleType.FUEL_TRUCK:
+				m_wMarkerIcon.LoadImageFromSet(0, m_rImageSet, "TRUCK");
+				m_fEntitySize = 14;
+				break;
+			case EVehicleType.COMM_TRUCK:
+				m_wMarkerIcon.LoadImageFromSet(0, m_rImageSet, "TRUCK");
+				m_fEntitySize = 14;
+				break;
 		}
 		
 	}

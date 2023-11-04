@@ -15,15 +15,30 @@ class PS_MapMenuUIReplayView: ChimeraMenuBase
 	int m_iCurrentReplayPosition;
 	int m_iCurrentTime;
 	int m_iLastTimeAwait;
+	float m_fSpeedScale = 1;
 	string m_sReplayFileName;
 	FileHandle m_fReplayFile;
+	
 	ref map<RplId, PS_MapMarkerReplayEntityComponent> m_hEntitiesMarkers = new map<RplId, PS_MapMarkerReplayEntityComponent>();
 	ref array<PS_MapLineComponent> m_hLinesMarkers = new array<PS_MapLineComponent>();
 	ref array<PS_ExplosionMarker> m_hExplosionMarkers = new array<PS_ExplosionMarker>();
 	ref map<int, PS_ReplayPlayer> m_hPlayers = new map<int, PS_ReplayPlayer>();
 	
+	SCR_NavigationButtonComponent m_bNavigationButtonSlower;
+	SCR_NavigationButtonComponent m_bNavigationButtonFaster;
+	
+	TextWidget m_wSpeedText;
+	
 	override void OnMenuOpen()
 	{	
+		m_bNavigationButtonSlower = SCR_NavigationButtonComponent.Cast(GetRootWidget().FindAnyWidget("NavigationButtonSlower").FindHandler(SCR_NavigationButtonComponent));
+		m_bNavigationButtonFaster = SCR_NavigationButtonComponent.Cast(GetRootWidget().FindAnyWidget("NavigationButtonFaster").FindHandler(SCR_NavigationButtonComponent));
+		
+		m_bNavigationButtonSlower.m_OnClicked.Insert(Action_Slower);
+		m_bNavigationButtonFaster.m_OnClicked.Insert(Action_Faster);
+		
+		m_wSpeedText = TextWidget.Cast(GetRootWidget().FindAnyWidget("SpeedText"));
+		
 		m_sReplayFileName = "$profile:Replays/ReplayRead.bin";
 		m_iCurrentTime = 0;
 		m_iCurrentReplayPosition = 0;
@@ -42,6 +57,20 @@ class PS_MapMenuUIReplayView: ChimeraMenuBase
 		}
 	}
 	
+	void Action_Slower()
+	{
+		if (m_fSpeedScale <= 1) return;
+		m_fSpeedScale = m_fSpeedScale / 2;
+		m_wSpeedText.SetText("x" + m_fSpeedScale.ToString());
+	}
+	
+	void Action_Faster()
+	{
+		if (m_fSpeedScale >= 32) return;
+		m_fSpeedScale = m_fSpeedScale * 2;
+		m_wSpeedText.SetText("x" + m_fSpeedScale.ToString());
+	}
+	
 	override void OnMenuClose()
 	{		
 		if (m_MapEntity)
@@ -56,6 +85,8 @@ class PS_MapMenuUIReplayView: ChimeraMenuBase
 	
 	override void OnMenuUpdate(float tDelta)
 	{
+		tDelta *= m_fSpeedScale;
+		
 		int markersCount = m_hEntitiesMarkers.Count();
 		for (int i = 0; i < markersCount; i++)
 		{

@@ -44,5 +44,17 @@ ImageSetClass {
    Size 128 128
    Flags 0
   }
+  ImageSetDefClass CHARACTER {
+   Name "CHARACTER"
+   Pos 2816 128
+   Size 128 128
+   Flags 0
+  }
+  ImageSetDefClass DEAD {
+   Name "DEAD"
+   Pos 0 128
+   Size 128 128
+   Flags 0
+  }
  }
 }
