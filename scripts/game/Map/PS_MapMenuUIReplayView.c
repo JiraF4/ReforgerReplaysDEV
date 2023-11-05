@@ -12,12 +12,12 @@ class PS_MapMenuUIReplayView: ChimeraMenuBase
 	ResourceName m_sLinePrefab = "{DCB4940B2B2FE884}UI/layouts/Map/ProjectileLine.layout";
 	ResourceName m_sExplosionPrefab = "{022311366521B245}UI/layouts/Map/ExplosionMarker.layout";
 	
-	int m_iCurrentReplayPosition;
 	int m_iCurrentTime;
 	int m_iLastTimeAwait;
 	float m_fSpeedScale = 1;
 	string m_sReplayFileName;
 	FileHandle m_fReplayFile;
+	int m_iCurrentReplayPosition;
 	
 	ref map<RplId, PS_MapMarkerReplayEntityComponent> m_hEntitiesMarkers = new map<RplId, PS_MapMarkerReplayEntityComponent>();
 	ref array<PS_MapLineComponent> m_hLinesMarkers = new array<PS_MapLineComponent>();
@@ -28,6 +28,10 @@ class PS_MapMenuUIReplayView: ChimeraMenuBase
 	SCR_NavigationButtonComponent m_bNavigationButtonFaster;
 	
 	TextWidget m_wSpeedText;
+	TextWidget m_wTimeLineText;
+	ImageWidget m_wProgressLine;
+	
+	ref PS_ReplayReader replayReader = new PS_ReplayReader();
 	
 	override void OnMenuOpen()
 	{	
@@ -36,10 +40,16 @@ class PS_MapMenuUIReplayView: ChimeraMenuBase
 		
 		m_bNavigationButtonSlower.m_OnClicked.Insert(Action_Slower);
 		m_bNavigationButtonFaster.m_OnClicked.Insert(Action_Faster);
+		GetGame().GetInputManager().AddActionListener("ReplaySlower", EActionTrigger.DOWN, Action_Slower);
+		GetGame().GetInputManager().AddActionListener("ReplayFaster", EActionTrigger.DOWN, Action_Faster);
 		
 		m_wSpeedText = TextWidget.Cast(GetRootWidget().FindAnyWidget("SpeedText"));
+		m_wTimeLineText = TextWidget.Cast(GetRootWidget().FindAnyWidget("TimeLineText"));
+		m_wProgressLine = ImageWidget.Cast(GetRootWidget().FindAnyWidget("ProgressLine"));
 		
 		m_sReplayFileName = "$profile:Replays/ReplayRead.bin";
+		replayReader.ReadFile(m_sReplayFileName);
+		
 		m_iCurrentTime = 0;
 		m_iCurrentReplayPosition = 0;
 		if (m_MapEntity)
@@ -59,14 +69,23 @@ class PS_MapMenuUIReplayView: ChimeraMenuBase
 	
 	void Action_Slower()
 	{
-		if (m_fSpeedScale <= 1) return;
+		if (m_fSpeedScale <= 1) {
+			m_fSpeedScale = 0;
+			m_wSpeedText.SetText("x" + m_fSpeedScale.ToString());
+			return;
+		}
 		m_fSpeedScale = m_fSpeedScale / 2;
 		m_wSpeedText.SetText("x" + m_fSpeedScale.ToString());
 	}
 	
 	void Action_Faster()
 	{
-		if (m_fSpeedScale >= 32) return;
+		if (m_fSpeedScale <= 0) {
+			m_fSpeedScale = 1;
+			m_wSpeedText.SetText("x" + m_fSpeedScale.ToString());
+			return;
+		}
+		if (m_fSpeedScale >= 64) return;
 		m_fSpeedScale = m_fSpeedScale * 2;
 		m_wSpeedText.SetText("x" + m_fSpeedScale.ToString());
 	}
@@ -87,12 +106,14 @@ class PS_MapMenuUIReplayView: ChimeraMenuBase
 	{
 		tDelta *= m_fSpeedScale;
 		
+		// Update entities
 		int markersCount = m_hEntitiesMarkers.Count();
 		for (int i = 0; i < markersCount; i++)
 		{
 			PS_MapMarkerReplayEntityComponent handler = m_hEntitiesMarkers.GetElement(i);
 			handler.Update();
 		}
+		// Update explosions
 		for (int i = 0; i < m_hExplosionMarkers.Count(); i++)
 		{
 			PS_ExplosionMarker explosion = m_hExplosionMarkers[i];
@@ -105,6 +126,7 @@ class PS_MapMenuUIReplayView: ChimeraMenuBase
 				i--;
 			}
 		}
+		// Update lines
 		for (int i = 0; i < m_hLinesMarkers.Count(); i++)
 		{
 			PS_MapLineComponent line = m_hLinesMarkers[i];
@@ -118,12 +140,145 @@ class PS_MapMenuUIReplayView: ChimeraMenuBase
 			}
 		}
 		
+		m_iCurrentTime += tDelta * 1000;
 		
+		int currentTimeClamp = m_iCurrentTime;
+		int replayTime = replayReader.GetReplayTime();
+		if (currentTimeClamp > replayTime) currentTimeClamp = replayTime;
+		
+		float replayTime24h = ((float) replayTime) / 1000 / 60 / 60;
+		float currentTimeClamp24h = ((float) currentTimeClamp) / 1000 / 60 / 60;
+		int h, m, s;
+		TimeAndWeatherManagerEntity.TimeToHoursMinutesSeconds(replayTime24h, h, m, s);
+		string replayTimeString = h.ToString(2) + ":" + m.ToString(2) + ":" + s.ToString(2);
+		TimeAndWeatherManagerEntity.TimeToHoursMinutesSeconds(currentTimeClamp24h, h, m, s);
+		string currentTimeString = h.ToString(2) + ":" + m.ToString(2) + ":" + s.ToString(2);
+		m_wTimeLineText.SetText(currentTimeString + "/" + replayTimeString);
+		
+		float timeProgress = ((float) currentTimeClamp) / ((float) replayTime);
+		
+		
+		float progressY = GetGame().GetWorkspace().DPIUnscale(28);
+		float progressX = GetGame().GetWorkspace().DPIUnscale(1020.0 * timeProgress);
+		FrameSlot.SetSize(m_wProgressLine, 1020.0 * timeProgress, 28);
+		
+		while (m_iCurrentTime > m_iLastTimeAwait) 
+		{
+			m_iCurrentReplayPosition++;
+			if (replayReader.m_aStates.Count() < m_iCurrentReplayPosition) return;
+			ReplayState state = replayReader.m_aStates[m_iCurrentReplayPosition - 1];
+			switch (state.type)
+			{
+				case PS_EReplayType.WorldTime:
+					ReplayWorldTime worldTime = ReplayWorldTime.Cast(state);
+					m_iLastTimeAwait = worldTime.WorldTime;
+					break;
+				case PS_EReplayType.EntityMove:
+					EntityMove entityMove = EntityMove.Cast(state);
+					if (m_hEntitiesMarkers.Contains(entityMove.EntityId))
+					{
+						PS_MapMarkerReplayEntityComponent handler = m_hEntitiesMarkers[entityMove.EntityId];
+						handler.Move(entityMove.PositionX, entityMove.PositionZ, entityMove.RotationY);
+					}
+					break;
+				case PS_EReplayType.CharacterPossess:
+					CharacterPossess characterPossess = CharacterPossess.Cast(state);
+					if (m_hEntitiesMarkers.Contains(characterPossess.EntityId))
+					{
+						if (m_hPlayers.Contains(characterPossess.PlayerId))
+						{
+							PS_MapMarkerReplayCharacterComponent handler = PS_MapMarkerReplayCharacterComponent.Cast(m_hEntitiesMarkers[characterPossess.EntityId]);
+							PS_ReplayPlayer player = m_hPlayers[characterPossess.PlayerId];
+							handler.Posses(player);
+						}
+					}
+					break;
+				case PS_EReplayType.CharacterRegistration:
+					CharacterRegistration characterRegistration = CharacterRegistration.Cast(state);
+					if (!m_hEntitiesMarkers.Contains(characterRegistration.EntityId))
+					{
+						Widget mapFrame = m_MapEntity.GetMapMenuRoot().FindAnyWidget(SCR_MapConstants.MAP_FRAME_NAME);
+						Widget characterWidget = Widget.Cast(GetGame().GetWorkspace().CreateWidgets(m_sMarkerPrefab, mapFrame));
+						PS_MapMarkerReplayCharacterComponent characterHandler = PS_MapMarkerReplayCharacterComponent.Cast(characterWidget.FindHandler(PS_MapMarkerReplayCharacterComponent));
+						characterHandler.Init(characterRegistration.EntityId, characterRegistration.EntityFactionKey);
+						m_hEntitiesMarkers[characterRegistration.EntityId] = characterHandler;
+					}
+					break;
+				case PS_EReplayType.PlayerRegistration:
+					PlayerRegistration playerRegistration = PlayerRegistration.Cast(state);
+					if (!m_hPlayers.Contains(playerRegistration.PlayerId))
+					{
+						PS_ReplayPlayer player = PS_ReplayPlayer.Cast(GetGame().SpawnEntity(PS_ReplayPlayer));
+						player.m_iPlayerId = playerRegistration.PlayerId;
+						player.m_sPlayerName = playerRegistration.PlayerName;
+						m_hPlayers[playerRegistration.PlayerId] = player;
+					}
+					break;
+				case PS_EReplayType.EntityDamageStateChanged:
+					EntityDamageStateChanged entityDamageStateChanged = EntityDamageStateChanged.Cast(state);
+					if (m_hEntitiesMarkers.Contains(entityDamageStateChanged.EntityId))
+					{
+						PS_MapMarkerReplayEntityComponent handler = m_hEntitiesMarkers[entityDamageStateChanged.EntityId];
+						handler.DamageState(entityDamageStateChanged.DamageState);
+					}
+					break;
+				case PS_EReplayType.VehicleRegistration:
+					VehicleRegistration vehicleRegistration = VehicleRegistration.Cast(state);
+					if (!m_hEntitiesMarkers.Contains(vehicleRegistration.EntityId))
+					{
+						Widget mapFrame = m_MapEntity.GetMapMenuRoot().FindAnyWidget(SCR_MapConstants.MAP_FRAME_NAME);
+						Widget characterWidget = Widget.Cast(GetGame().GetWorkspace().CreateWidgets(m_sMarkerVehiclePrefab, mapFrame));
+						PS_MapMarkerReplayVehicleComponent vehicleHandler = PS_MapMarkerReplayVehicleComponent.Cast(characterWidget.FindHandler(PS_MapMarkerReplayVehicleComponent));
+						
+						vehicleHandler.SetVehicleType(vehicleRegistration.VehicleType);
+						vehicleHandler.Init(vehicleRegistration.EntityId, vehicleRegistration.EntityFactionKey);
+					
+						m_hEntitiesMarkers[vehicleRegistration.EntityId] = vehicleHandler;
+					}
+					break;
+				case PS_EReplayType.ProjectileShoot:
+					ProjectileShoot projectileShoot = ProjectileShoot.Cast(state);
+					if (m_hEntitiesMarkers.Contains(projectileShoot.EntityId))
+					{
+						PS_MapMarkerReplayEntityComponent entityHandler = m_hEntitiesMarkers[projectileShoot.EntityId];
+						
+						float posX, posZ, rotation;
+						entityHandler.GetWorldPositionAndRotation(posX, posZ, rotation);
+					
+						Widget mapFrame = m_MapEntity.GetMapMenuRoot().FindAnyWidget(SCR_MapConstants.MAP_FRAME_NAME);
+						Widget lineWidget = Widget.Cast(GetGame().GetWorkspace().CreateWidgets(m_sLinePrefab, mapFrame));
+						PS_MapLineComponent lineHandler = PS_MapLineComponent.Cast(lineWidget.FindHandler(PS_MapLineComponent));
+						lineHandler.SetPosition(posX, posZ, projectileShoot.PositionX, projectileShoot.PositionZ);
+						m_hLinesMarkers.Insert(lineHandler);
+					}
+					break;
+				case PS_EReplayType.Explosion:
+					Explosion explosion = Explosion.Cast(state);
+					Widget mapFrame = m_MapEntity.GetMapMenuRoot().FindAnyWidget(SCR_MapConstants.MAP_FRAME_NAME);
+					Widget explosionWidget = Widget.Cast(GetGame().GetWorkspace().CreateWidgets(m_sExplosionPrefab, mapFrame));
+					PS_ExplosionMarker explosionHandler = PS_ExplosionMarker.Cast(explosionWidget.FindHandler(PS_ExplosionMarker));
+					explosionHandler.SetImpule(explosion.PositionX, explosion.PositionZ, explosion.ImpulseDistance);
+					m_hExplosionMarkers.Insert(explosionHandler);
+					break;
+				case PS_EReplayType.EntityDelete:
+					EntityDelete entityDelete = EntityDelete.Cast(state);
+					if (m_hEntitiesMarkers.Contains(entityDelete.EntityId))
+					{
+						PS_MapMarkerReplayEntityComponent entityHandler = m_hEntitiesMarkers[entityDelete.EntityId];
+						Widget entitieWidget = entityHandler.GetRootWidget();
+						m_hEntitiesMarkers.Remove(entityDelete.EntityId);
+						Widget mapFrame = m_MapEntity.GetMapMenuRoot().FindAnyWidget(SCR_MapConstants.MAP_FRAME_NAME);
+						mapFrame.RemoveChild(entitieWidget);
+					}
+					break;
+			}
+		}
+				
+		/*
 		FileHandle replayFile = FileIO.OpenFile(m_sReplayFileName, FileMode.READ);
 		if (replayFile.GetLength() <= m_iCurrentReplayPosition) return;
 		replayFile.Seek(m_iCurrentReplayPosition);
 		
-		m_iCurrentTime += tDelta * 1000;
 		int i = 0;
 		while (m_iCurrentTime > m_iLastTimeAwait) 
 		{
@@ -331,6 +486,7 @@ class PS_MapMenuUIReplayView: ChimeraMenuBase
 					break;
 			}
 		}
+		*/
 	}
 };
 

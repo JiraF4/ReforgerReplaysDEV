@@ -106,7 +106,7 @@ FrameWidgetClass {
        components {
         SCR_NavigationButtonComponent "{5474BAC5DBCF129A}" {
          m_sLabel "Slower"
-         m_sActionName "ChatToggle"
+         m_sActionName "ReplaySlower"
         }
        }
        {
@@ -125,7 +125,7 @@ FrameWidgetClass {
        components {
         SCR_NavigationButtonComponent "{5474BAC5DBCF129A}" {
          m_sLabel "Faster"
-         m_sActionName "VONDirect"
+         m_sActionName "ReplayFaster"
         }
        }
       }
@@ -147,6 +147,68 @@ FrameWidgetClass {
     OffsetBottom 55.19
    }
    Text "x1"
+  }
+  TextWidgetClass "{5ECA16E03EE8DDA6}" {
+   Name "TimeLineText"
+   Slot FrameWidgetSlot "{5EC94CA5BBA49677}" {
+    Anchor 1 1 1 1
+    PositionX -1280
+    OffsetLeft -1280
+    PositionY -32
+    OffsetTop -32
+    SizeX 256
+    OffsetRight 1024
+    SizeY 32
+    OffsetBottom 0
+   }
+   Text "00:00:00/00:00:00"
+   "Horizontal Alignment" Right
+   "Vertical Alignment" Center
+  }
+  FrameWidgetClass "{5EC94CA5063CF8A2}" {
+   Name "FrameTimeLine"
+   Slot FrameWidgetSlot "{5EC94CA5063CF8BA}" {
+    Anchor 1 1 1 1
+    PositionX -1024
+    OffsetLeft -1024
+    PositionY -32
+    OffsetTop -32
+    SizeX 1024
+    OffsetRight 0
+    SizeY 32
+    OffsetBottom 0
+   }
+   {
+    ImageWidgetClass "{5EC96B43DF7CCCC9}" {
+     Name "ProgressLine"
+     Slot FrameWidgetSlot "{5ECA22F368F8F0B2}" {
+      PositionX 2
+      OffsetLeft 2
+      PositionY 2
+      OffsetTop 2
+      SizeX 1020
+      OffsetRight -1022
+      SizeY 28
+      OffsetBottom -30
+     }
+     Color 1 0 0 1
+     Size 32 32
+    }
+    PanelWidgetClass "{5EC94CA5BBA49663}" {
+     Name "TimeLine"
+     Slot FrameWidgetSlot "{5EC94CA5BBA49677}" {
+      Anchor 1 1 1 1
+      PositionX -1024
+      OffsetLeft -1024
+      PositionY -32
+      OffsetTop -32
+      SizeX 1024
+      OffsetRight 0
+      SizeY 32
+      OffsetBottom 0
+     }
+    }
+   }
   }
  }
 }
