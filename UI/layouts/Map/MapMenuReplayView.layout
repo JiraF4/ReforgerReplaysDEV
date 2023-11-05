@@ -129,6 +129,17 @@ FrameWidgetClass {
         }
        }
       }
+      ButtonWidgetClass "{5ECA248F30A77BA8}" : "{08CF3B69CB1ACBC4}UI/layouts/WidgetLibrary/Buttons/WLib_NavigationButton.layout" {
+       Name "NavigationButtonToGame"
+       Slot LayoutSlot "{5EBC737F18D3A970}" {
+       }
+       components {
+        SCR_NavigationButtonComponent "{5474BAC5DBCF129A}" {
+         m_sLabel "ToGame"
+         m_sActionName "ReplayToGame"
+        }
+       }
+      }
      }
     }
    }
@@ -179,6 +190,24 @@ FrameWidgetClass {
     OffsetBottom 0
    }
    {
+    ButtonWidgetClass "{5ECAA482C19B4CFC}" {
+     Name "ProgressButton"
+     Slot FrameWidgetSlot "{5ECAA482C19B4C29}" {
+      PositionX 0
+      OffsetLeft 0
+      PositionY 0
+      OffsetTop 0
+      SizeX 1024
+      OffsetRight -1024
+      SizeY 32
+      OffsetBottom -32
+     }
+     Color 1 1 1 0
+     components {
+      SCR_ButtonBaseComponent "{5ECAA4828F6F2F8F}" {
+      }
+     }
+    }
     ImageWidgetClass "{5EC96B43DF7CCCC9}" {
      Name "ProgressLine"
      Slot FrameWidgetSlot "{5ECA22F368F8F0B2}" {
@@ -186,8 +215,8 @@ FrameWidgetClass {
       OffsetLeft 2
       PositionY 2
       OffsetTop 2
-      SizeX 1020
-      OffsetRight -1022
+      SizeX 640
+      OffsetRight -642
       SizeY 28
       OffsetBottom -30
      }

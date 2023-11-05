@@ -1,11 +1,19 @@
 class PS_ReplayReader
 {
 	ref array<ref ReplayState> m_aStates;
+	ref map<RplId, ReplayState> m_aEntities;
+	
+	
 	int m_iFilePosition = 0;
 	string m_sFilePath;
 	int m_iReplayTime = 1;
+	int m_iFirstPossessTime = 1;
 	bool m_bLoadEnded = false;
 	
+	int GetFirstPossessTime()
+	{
+		return m_iFirstPossessTime;
+	}
 	int GetReplayTime()
 	{
 		return m_iReplayTime;
@@ -20,18 +28,20 @@ class PS_ReplayReader
 		m_sFilePath = path;
 		m_bLoadEnded = false;
 		m_aStates = new array<ref ReplayState>();
+		m_aEntities = new map<RplId, ReplayState>();
 		GetGame().GetCallqueue().CallLater(ReadFileTimed);
 	}
 	
 	void ReadFileTimed()
 	{
-		int maxRead = 30000;
+		int maxRead = 100000;
 		int readStartPosition = m_iFilePosition;
 		FileHandle replayFile = FileIO.OpenFile(m_sFilePath, FileMode.READ);
 		replayFile.Seek(readStartPosition);
 		while (m_iFilePosition - readStartPosition < maxRead) 
 		{
 			if (replayFile.IsEOF()) {
+				replayFile.Close();
 				LoadEnd();
 				return;
 			}
@@ -70,6 +80,21 @@ class PS_ReplayReader
 					replayFile.Read(playerId, 4);
 					m_iFilePosition += 8;
 					
+					if (m_iFirstPossessTime == 1) 
+					{
+						if (m_aEntities.Contains(characterId)) 
+						{
+							ReplayState state = m_aEntities[characterId];
+							if (state.IsInherited(CharacterRegistration)) {
+								CharacterRegistration character = CharacterRegistration.Cast(state);
+								if (character.EntityFactionKey != "")
+								{
+									m_iFirstPossessTime = m_iReplayTime;
+								}
+							}
+						}
+					}
+					
 					m_aStates.Insert(new CharacterPossess(characterId, playerId));
 					
 					break;
@@ -82,7 +107,9 @@ class PS_ReplayReader
 					replayFile.Read(factionKey, factionKeyLength);
 					m_iFilePosition += 8 + factionKeyLength;
 					
-					m_aStates.Insert(new CharacterRegistration(characterId, factionKey));
+					CharacterRegistration characterRegistration = new CharacterRegistration(characterId, factionKey);
+					m_aEntities.Insert(characterId, characterRegistration);
+					m_aStates.Insert(characterRegistration);
 					
 					break;
 				case PS_EReplayType.VehicleRegistration:
@@ -100,7 +127,9 @@ class PS_ReplayReader
 					replayFile.Read(factionKey, factionKeyLength);
 					m_iFilePosition += 16 + vehicleNameLength + factionKeyLength;
 					
-					m_aStates.Insert(new VehicleRegistration(vehicleId, vehicleName, vehicleType, factionKey));
+					VehicleRegistration vehicleRegistration = new VehicleRegistration(vehicleId, vehicleName, vehicleType, factionKey);
+					m_aEntities.Insert(vehicleId, vehicleRegistration);
+					m_aStates.Insert(vehicleRegistration);
 					
 					break;
 				case PS_EReplayType.PlayerRegistration:
@@ -160,12 +189,19 @@ class PS_ReplayReader
 			}
 		}
 		
-		if (m_iFilePosition < replayFile.GetLength()) GetGame().GetCallqueue().CallLater(ReadFileTimed);
-		else LoadEnd();
+		if (m_iFilePosition < replayFile.GetLength()) {
+			replayFile.Close();
+			GetGame().GetCallqueue().CallLater(ReadFileTimed);
+		}
+		else {
+			replayFile.Close();
+			LoadEnd();
+		}
 	}
 	
 	void LoadEnd()
 	{
+		Print("LastPos: " + m_iFilePosition.ToString());
 		m_bLoadEnded = true;
 	}
 }

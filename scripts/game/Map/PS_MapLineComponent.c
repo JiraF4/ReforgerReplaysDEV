@@ -53,6 +53,7 @@ class PS_MapLineComponent : SCR_ScriptedWidgetComponent
 		lineVector[0] = sizeXD - screenXD;
 		lineVector[1] = sizeYD - screenYD;
 		float len = lineVector.Length();
+		if (len <= 0.0) len = 0.0001;
 		lineVector = lineVector / len;
 		float angle = Math.Atan2(lineVector[1], lineVector[0]);
 		
