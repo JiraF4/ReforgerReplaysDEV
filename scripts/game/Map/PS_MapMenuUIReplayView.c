@@ -34,8 +34,10 @@ class PS_MapMenuUIReplayView: ChimeraMenuBase
 	TextWidget m_wTimeLineText;
 	ImageWidget m_wProgressLine;
 	ButtonWidget m_wProgressButton;
+	EditBoxWidget m_wFilePickEditBox;
+	string m_sOldPath = "";
 	
-	ref PS_ReplayReader replayReader = new PS_ReplayReader();
+	ref PS_ReplayReader replayReader;
 	
 	override void OnMenuOpen()
 	{	
@@ -55,30 +57,46 @@ class PS_MapMenuUIReplayView: ChimeraMenuBase
 		m_wTimeLineText = TextWidget.Cast(GetRootWidget().FindAnyWidget("TimeLineText"));
 		m_wProgressLine = ImageWidget.Cast(GetRootWidget().FindAnyWidget("ProgressLine"));
 		m_wProgressButton = ButtonWidget.Cast(GetRootWidget().FindAnyWidget("ProgressButton"));
+		m_wFilePickEditBox = EditBoxWidget.Cast(GetRootWidget().FindAnyWidget("FilePickEditBox"));
 		
 		SCR_ButtonBaseComponent button = SCR_ButtonBaseComponent.Cast(m_wProgressButton.FindHandler(SCR_ButtonBaseComponent));
-		button.m_OnClicked.Insert(ProgressBarClick);		
-		
-		m_sReplayFileName = "$profile:Replays/ReplayRead.bin";
-		replayReader.ReadFile(m_sReplayFileName);
+		button.m_OnClicked.Insert(ProgressBarClick);
 		
 		m_iCurrentTime = 0;
 		m_iCurrentReplayPosition = 0;
 		if (m_MapEntity)
 		{	
-			BaseGameMode gameMode = GetGame().GetGameMode();
-			if (!gameMode)
-				return;
-		
-			SCR_MapConfigComponent configComp = SCR_MapConfigComponent.Cast(gameMode.FindComponent(SCR_MapConfigComponent));
-			if (!configComp)
-				return;
-		
-			MapConfiguration mapConfigFullscreen = m_MapEntity.SetupMapConfig(EMapEntityMode.FULLSCREEN, configComp.GetGadgetMapConfig(), GetRootWidget());
-			m_MapEntity.OpenMap(mapConfigFullscreen);
+			OpenMap();
 		}
 		
 		
+	}
+	void OpenMap()
+	{
+		GetGame().GetCallqueue().CallLater(OpenMapWrap, 0); // Need two frames
+	}
+	void OpenMapWrap()
+	{
+		BaseGameMode gameMode = GetGame().GetGameMode();
+		if (!gameMode)
+			return;
+		
+		SCR_MapConfigComponent configComp = SCR_MapConfigComponent.Cast(gameMode.FindComponent(SCR_MapConfigComponent));
+		if (!configComp)
+			return;
+		
+		MapConfiguration mapConfigFullscreen = m_MapEntity.SetupMapConfig(EMapEntityMode.FULLSCREEN, configComp.GetGadgetMapConfig(), GetRootWidget());
+		m_MapEntity.OpenMap(mapConfigFullscreen);
+		GetGame().GetCallqueue().CallLater(OpenMapWrapZoomChange, 0);
+	}
+	void OpenMapWrapZoomChange()
+	{
+		// What i do with my life...
+		GetGame().GetCallqueue().CallLater(OpenMapWrapZoomChangeWrap, 0); // Another two frames
+	}
+	void OpenMapWrapZoomChangeWrap()
+	{
+		m_MapEntity.ZoomOut();
 	}
 	
 	override void OnMenuClose()
@@ -126,6 +144,7 @@ class PS_MapMenuUIReplayView: ChimeraMenuBase
 	
 	void ProgressBarClick(SCR_ButtonBaseComponent button)
 	{
+		if (!replayReader) return;
 		// mouse pos 
 		int mousePosX, mousePosY;
 		WidgetManager.GetMousePos(mousePosX, mousePosY);
@@ -173,6 +192,21 @@ class PS_MapMenuUIReplayView: ChimeraMenuBase
 	
 	override void OnMenuUpdate(float tDelta)
 	{
+		string path = m_wFilePickEditBox.GetText();
+		path.Replace("\"", "");
+		if (path != m_sOldPath)
+		{
+			m_sOldPath = path;
+			if (FileIO.FileExists(m_sOldPath))
+			{
+				FastForwardTo(0);
+				replayReader = new PS_ReplayReader();
+				m_sReplayFileName = m_sOldPath;
+				replayReader.ReadFile(m_sReplayFileName);
+			}
+		}
+		if (!replayReader) return;
+		
 		tDelta *= m_fSpeedScale;
 		
 		// Update entities

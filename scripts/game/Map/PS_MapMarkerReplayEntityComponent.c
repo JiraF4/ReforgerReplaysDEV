@@ -19,6 +19,7 @@ class PS_MapMarkerReplayEntityComponent : SCR_ScriptedWidgetComponent
 	float rotationY;
 	
 	float m_fEntitySize = 4.0;
+	float m_fMinMarkerSize = 24.0;
 	
 	override void HandlerAttached(Widget w)
 	{
@@ -45,6 +46,10 @@ class PS_MapMarkerReplayEntityComponent : SCR_ScriptedWidgetComponent
 		float screenYD = GetGame().GetWorkspace().DPIUnscale(screenY);
 		float sizeXD = GetGame().GetWorkspace().DPIUnscale(screenXEnd - screenX);
 		float sizeYD = GetGame().GetWorkspace().DPIUnscale(screenY - screenYEnd); // Y flip
+		
+		if (sizeXD < m_fMinMarkerSize) sizeXD = m_fMinMarkerSize;
+		if (sizeYD < m_fMinMarkerSize) sizeYD = m_fMinMarkerSize;
+		
 		FrameSlot.SetPos(m_wRoot, screenXD, screenYD);
 		FrameSlot.SetPos(m_wEntityNameText, -sizeXD/2, -sizeYD);
 		FrameSlot.SetSize(m_wEntityNameText, sizeXD, sizeYD/2);

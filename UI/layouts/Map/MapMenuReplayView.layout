@@ -215,8 +215,8 @@ FrameWidgetClass {
       OffsetLeft 2
       PositionY 2
       OffsetTop 2
-      SizeX 640
-      OffsetRight -642
+      SizeX 0
+      OffsetRight -2
       SizeY 28
       OffsetBottom -30
      }
@@ -236,6 +236,67 @@ FrameWidgetClass {
       SizeY 32
       OffsetBottom 0
      }
+    }
+   }
+  }
+  FrameWidgetClass "{5ED15B2D18C3642C}" {
+   Name "FrameFilePick"
+   Slot FrameWidgetSlot "{5ED15B2D18C36407}" {
+    Anchor 1 1 1 1
+    PositionX -1280
+    OffsetLeft -1280
+    PositionY -62
+    OffsetTop -62
+    SizeX 1280
+    OffsetRight 0
+    SizeY 30
+    OffsetBottom 32
+   }
+   {
+    TextWidgetClass "{5ED15B2C85BF411B}" {
+     Name "FilePickText"
+     Slot FrameWidgetSlot "{5EC94CA5BBA49677}" {
+      Anchor 1 1 1 1
+      PositionX -1280
+      OffsetLeft -1280
+      PositionY -32
+      OffsetTop -32
+      SizeX 256
+      OffsetRight 1024
+      SizeY 32
+      OffsetBottom 0
+     }
+     Text "Replay file path:"
+     "Horizontal Alignment" Right
+     "Vertical Alignment" Center
+    }
+    PanelWidgetClass "{5ED15B2C9AC7939F}" {
+     Name "Panel"
+     Slot FrameWidgetSlot "{5ED15B2C9AC793C7}" {
+      PositionX 256
+      OffsetLeft 256
+      PositionY 0
+      OffsetTop 0
+      SizeX 1023
+      OffsetRight -1279
+      SizeY 30
+      OffsetBottom -30
+     }
+    }
+    EditBoxWidgetClass "{5ED15B2CC0363D31}" {
+     Name "FilePickEditBox"
+     Slot FrameWidgetSlot "{5ED15B2CC0363D06}" {
+      PositionX 258
+      OffsetLeft 258
+      PositionY 0
+      OffsetTop 0
+      SizeX 1023
+      OffsetRight -1281
+      SizeY 30
+      OffsetBottom -30
+     }
+     "Use placeholder text" 1
+     "Placeholder text" "Replay file path"
     }
    }
   }
