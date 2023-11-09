@@ -38,7 +38,11 @@ modded class SCR_EditableVehicleComponent
 		RplId rplId = Rpl.Id();
 		SCR_VehicleFactionAffiliationComponent factionComponent = SCR_VehicleFactionAffiliationComponent.Cast(owner.FindComponent(SCR_VehicleFactionAffiliationComponent));
 		Faction faction = factionComponent.GetDefaultAffiliatedFaction();
-		replayWriter.WriteVehicleRegistration(rplId, uIInfo.GetName(), vehicle.m_eVehicleType, faction.GetFactionKey());
+		FactionKey factionKey = "";
+		if (faction) factionKey = faction.GetFactionKey();
+		string name = "";
+		if (uIInfo) name = uIInfo.GetName();
+		replayWriter.WriteVehicleRegistration(rplId, name, vehicle.m_eVehicleType, factionKey);
 		
 		m_iRemoveRpl = Rpl.Id();
 		
