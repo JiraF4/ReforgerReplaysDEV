@@ -192,7 +192,7 @@ class PS_MapMenuUIReplayView: ChimeraMenuBase
 	
 	override void OnMenuUpdate(float tDelta)
 	{
-		string path = m_wFilePickEditBox.GetText();
+		string path = "$profile:Replays/" + m_wFilePickEditBox.GetText() + ".bin";
 		path.Replace("\"", "");
 		if (path != m_sOldPath)
 		{
