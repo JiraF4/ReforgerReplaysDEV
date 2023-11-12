@@ -25,9 +25,10 @@ class PS_MapMenuUIReplayView: ChimeraMenuBase
 	ref array<PS_ExplosionMarker> m_hExplosionMarkers = new array<PS_ExplosionMarker>();
 	ref map<int, PS_ReplayPlayer> m_hPlayers = new map<int, PS_ReplayPlayer>();
 	
-	SCR_NavigationButtonComponent m_bNavigationButtonSlower;
-	SCR_NavigationButtonComponent m_bNavigationButtonFaster;
-	SCR_NavigationButtonComponent m_bNavigationButtonToGame;
+	
+	SCR_InputButtonComponent m_bNavigationButtonSlower;
+	SCR_InputButtonComponent m_bNavigationButtonFaster;
+	SCR_InputButtonComponent m_bNavigationButtonToGame;
 	
 	FrameWidget m_wFrameTimeLine;
 	TextWidget m_wSpeedText;
@@ -41,9 +42,9 @@ class PS_MapMenuUIReplayView: ChimeraMenuBase
 	
 	override void OnMenuOpen()
 	{	
-		m_bNavigationButtonSlower = SCR_NavigationButtonComponent.Cast(GetRootWidget().FindAnyWidget("NavigationButtonSlower").FindHandler(SCR_NavigationButtonComponent));
-		m_bNavigationButtonFaster = SCR_NavigationButtonComponent.Cast(GetRootWidget().FindAnyWidget("NavigationButtonFaster").FindHandler(SCR_NavigationButtonComponent));
-		m_bNavigationButtonToGame = SCR_NavigationButtonComponent.Cast(GetRootWidget().FindAnyWidget("NavigationButtonToGame").FindHandler(SCR_NavigationButtonComponent));
+		m_bNavigationButtonSlower = SCR_InputButtonComponent.Cast(GetRootWidget().FindAnyWidget("NavigationButtonSlower").FindHandler(SCR_InputButtonComponent));
+		m_bNavigationButtonFaster = SCR_InputButtonComponent.Cast(GetRootWidget().FindAnyWidget("NavigationButtonFaster").FindHandler(SCR_InputButtonComponent));
+		m_bNavigationButtonToGame = SCR_InputButtonComponent.Cast(GetRootWidget().FindAnyWidget("NavigationButtonToGame").FindHandler(SCR_InputButtonComponent));
 		
 		m_bNavigationButtonSlower.m_OnClicked.Insert(Action_Slower);
 		m_bNavigationButtonFaster.m_OnClicked.Insert(Action_Faster);
