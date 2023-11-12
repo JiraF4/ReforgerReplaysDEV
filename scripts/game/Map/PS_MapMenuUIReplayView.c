@@ -51,6 +51,10 @@ class PS_MapMenuUIReplayView: ChimeraMenuBase
 		GetGame().GetInputManager().AddActionListener("ReplaySlower", EActionTrigger.DOWN, Action_Slower);
 		GetGame().GetInputManager().AddActionListener("ReplayFaster", EActionTrigger.DOWN, Action_Faster);
 		GetGame().GetInputManager().AddActionListener("ReplayToGame", EActionTrigger.DOWN, Action_ToGame);
+		GetGame().GetInputManager().AddActionListener("MenuBack", EActionTrigger.DOWN, Action_Exit);
+#ifdef WORKBENCH
+		GetGame().GetInputManager().AddActionListener("MenuBackWB", EActionTrigger.DOWN, Action_Exit);
+#endif
 		
 		m_wFrameTimeLine = FrameWidget.Cast(GetRootWidget().FindAnyWidget("FrameTimeLine"));
 		m_wSpeedText = TextWidget.Cast(GetRootWidget().FindAnyWidget("SpeedText"));
@@ -595,6 +599,16 @@ class PS_MapMenuUIReplayView: ChimeraMenuBase
 		}
 		*/
 	}
+	
+	void Action_Exit()
+	{
+		GetGame().GetCallqueue().CallLater(OpenPauseMenuWrap, 0); //  Else menu auto close itself
+	}
+	void OpenPauseMenuWrap()
+	{
+		ArmaReforgerScripted.OpenPauseMenu();
+	}
+	
 };
 
 
