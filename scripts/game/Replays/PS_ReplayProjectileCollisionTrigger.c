@@ -8,9 +8,9 @@ class PS_ReplayProjectileCollisionTrigger: BaseProjectileEffect
 	{
 		if (!Replication.IsServer()) return;
 		
-		if (!damageSource) return;
+		if (!instigator.GetInstigatorEntity()) return;
 		
-		RplComponent rpl = RplComponent.Cast(damageSource.FindComponent(RplComponent));
+		RplComponent rpl = RplComponent.Cast(instigator.GetInstigatorEntity().FindComponent(RplComponent));
 		PS_ReplayWriter replayWriter = PS_ReplayWriter.GetInstance();
 		replayWriter.WriteProjectileShoot(rpl.Id(), outMat[0][0], outMat[0][2]);
 	}
