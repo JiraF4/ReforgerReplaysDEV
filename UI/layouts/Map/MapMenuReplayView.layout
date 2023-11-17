@@ -1,7 +1,7 @@
 FrameWidgetClass {
  Name "MapMenu"
  {
-  FrameWidgetClass "{5EBA0AF691A4AAD1}" : "{B7A765172F0BD4D9}UI/layouts/Common/EarlyAccessWatermark.layout" {
+  FrameWidgetClass "{5EBA0AF691A4AAD1}" : "{B7A765172F0BD4D9}UI/layouts/Common/GameVersionWatermark.layout" {
    Name "EarlyAccessRoot0"
    Slot FrameWidgetSlot "{5CEE96372B5D270B}" {
     PositionX 0
@@ -104,17 +104,9 @@ FrameWidgetClass {
         Padding 20 0 0 0
        }
        components {
-        SCR_NavigationButtonComponent "{5474BAC5DBCF129A}" {
-         m_sLabel "Slower"
+        SCR_InputButtonComponent "{5474BAC5DBCF129A}" {
          m_sActionName "ReplaySlower"
-        }
-       }
-       {
-        SizeLayoutWidgetClass "{5562AD435529FB36}" {
-         Prefab "{5562AD435529FB36}"
-         Slot ButtonWidgetSlot "{5562AD435529FB5D}" {
-          Padding 20 0 0 0
-         }
+         m_sLabel "Slower"
         }
        }
       }
@@ -123,9 +115,9 @@ FrameWidgetClass {
        Slot LayoutSlot "{5EBC737F18D3A970}" {
        }
        components {
-        SCR_NavigationButtonComponent "{5474BAC5DBCF129A}" {
-         m_sLabel "Faster"
+        SCR_InputButtonComponent "{5474BAC5DBCF129A}" {
          m_sActionName "ReplayFaster"
+         m_sLabel "Faster"
         }
        }
       }
@@ -134,9 +126,9 @@ FrameWidgetClass {
        Slot LayoutSlot "{5EBC737F18D3A970}" {
        }
        components {
-        SCR_NavigationButtonComponent "{5474BAC5DBCF129A}" {
-         m_sLabel "ToGame"
+        SCR_InputButtonComponent "{5474BAC5DBCF129A}" {
          m_sActionName "ReplayToGame"
+         m_sLabel "ToGame"
         }
        }
       }
