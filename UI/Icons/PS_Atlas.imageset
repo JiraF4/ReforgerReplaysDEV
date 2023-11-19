@@ -56,5 +56,11 @@ ImageSetClass {
    Size 128 128
    Flags 0
   }
+  ImageSetDefClass HELICOPTER {
+   Name "HELICOPTER"
+   Pos 2944 128
+   Size 128 128
+   Flags 0
+  }
  }
 }

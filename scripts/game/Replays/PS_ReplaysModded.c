@@ -89,12 +89,14 @@ modded class SCR_ChimeraCharacter
 	
 	void RegisterToReplay()
 	{
-		RplComponent rpl = RplComponent.Cast(this.FindComponent(RplComponent));
-		SCR_CharacterDamageManagerComponent damageComponent = SCR_CharacterDamageManagerComponent.Cast(this.FindComponent(SCR_CharacterDamageManagerComponent));
-		ScriptInvoker damageEvent = damageComponent.GetOnDamageStateChanged();
-		damageEvent.Insert(DieLogger);
-		PS_ReplayWriter.GetInstance().WriteCharacterRegistration(rpl.Id(), this);
-		GetGame().GetCallqueue().CallLater(PositionLogger, 0, false, rpl.Id());
+		if (PS_ReplayWriter.GetInstance()) {
+			RplComponent rpl = RplComponent.Cast(this.FindComponent(RplComponent));
+			SCR_CharacterDamageManagerComponent damageComponent = SCR_CharacterDamageManagerComponent.Cast(this.FindComponent(SCR_CharacterDamageManagerComponent));
+			ScriptInvoker damageEvent = damageComponent.GetOnDamageStateChanged();
+			damageEvent.Insert(DieLogger);
+			PS_ReplayWriter.GetInstance().WriteCharacterRegistration(rpl.Id(), this);
+			GetGame().GetCallqueue().CallLater(PositionLogger, 0, false, rpl.Id());
+		}
 	}
 	
 	protected void PositionLogger(RplId rplId)
