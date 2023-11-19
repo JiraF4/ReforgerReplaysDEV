@@ -35,9 +35,9 @@ FrameWidgetClass {
       OffsetBottom -60
      }
      Clipping False
-     Texture "{2EFEA2AF1F38E7F0}UI/Textures/Icons/icons_wrapperUI-64.imageset"
-     Image "subscribe"
-     Size 64 64
+     Texture "{ED7A1DA5BC4CCBA0}UI/Icons/PS_Atlas.imageset"
+     Image "HELICOPTER"
+     Size 128 128
     }
     TextWidgetClass "{5EC2E975B3DA3605}" {
      Name "EntityNameText"
