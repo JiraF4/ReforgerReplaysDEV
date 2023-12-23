@@ -38,9 +38,6 @@ class PS_MapMenuUIReplayView: ChimeraMenuBase
 	EditBoxWidget m_wFilePickEditBox;
 	string m_sOldPath = "";
 	
-	ImageWidget m_wImageGround;
-	ResourceName groundPath = "{3686D6087292EE80}UI/ImageGround.layout";
-	
 	ref PS_ReplayReader replayReader;
 	
 	override void OnMenuOpen()
@@ -101,9 +98,6 @@ class PS_MapMenuUIReplayView: ChimeraMenuBase
 	{
 		// What i do with my life...
 		GetGame().GetCallqueue().CallLater(OpenMapWrapZoomChangeWrap, 0); // Another two frames
-		
-		Widget mapFrame = m_MapEntity.GetMapMenuRoot().FindAnyWidget(SCR_MapConstants.MAP_FRAME_NAME);
-		m_wImageGround = ImageWidget.Cast(GetGame().GetWorkspace().CreateWidgets(groundPath, mapFrame));
 	}
 	void OpenMapWrapZoomChangeWrap()
 	{
@@ -203,21 +197,6 @@ class PS_MapMenuUIReplayView: ChimeraMenuBase
 	
 	override void OnMenuUpdate(float tDelta)
 	{
-		if (m_wImageGround) {
-			float size = 480;
-			float posXG = 9496;
-			float posZG = 3064;
-			float screenX, screenY, screenXEnd, screenYEnd;
-			m_MapEntity.WorldToScreen(posXG, posZG, screenX, screenY, true);
-			m_MapEntity.WorldToScreen(posXG + size, posZG + size, screenXEnd, screenYEnd, true);
-			float screenXD = GetGame().GetWorkspace().DPIUnscale(screenX);
-			float screenYD = GetGame().GetWorkspace().DPIUnscale(screenY);
-			float sizeXD = GetGame().GetWorkspace().DPIUnscale(screenXEnd - screenX);
-			float sizeYD = GetGame().GetWorkspace().DPIUnscale(screenY - screenYEnd); // Y flip
-			FrameSlot.SetSize(m_wImageGround, sizeXD, sizeYD);
-			FrameSlot.SetPos(m_wImageGround, screenXD - sizeXD/2, screenYD - sizeYD/2);
-		}
-			
 		string path = "$profile:Replays/" + m_wFilePickEditBox.GetText() + ".bin";
 		path.Replace("\"", "");
 		if (path != m_sOldPath)
@@ -234,7 +213,6 @@ class PS_MapMenuUIReplayView: ChimeraMenuBase
 		if (!replayReader) return;
 		
 		tDelta *= m_fSpeedScale;
-		
 		
 		// Update entities
 		int markersCount = m_hEntitiesMarkers.Count();
