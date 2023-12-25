@@ -19,10 +19,10 @@ FrameWidgetClass {
    Name "LineImage"
    Slot FrameWidgetSlot "{5EBE7616BFC0D84D}" {
    }
-   Color 0.686 0.452 0.015 1
+   Color 0.698 0.175 0 1
    Pivot 0 0.5
-   Texture "{B6A98151E97044D4}UI/Textures/Map/cursorLines/guidingLine_slice.edds"
-   Size 700 100
+   Texture "{FCBF69064C32207F}UI/Textures/Workshop/FilterBg_UI.edds"
+   Size 64 64
   }
  }
 }
