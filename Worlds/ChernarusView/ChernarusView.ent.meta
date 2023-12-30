@@ -1,0 +1,15 @@
+MetaFileClass {
+ Name "{37104BF58CCA2EE6}Worlds/ChernarusView/ChernarusView.ent"
+ Configurations {
+  ENTResourceClass PC {
+  }
+  ENTResourceClass XBOX_ONE : PC {
+  }
+  ENTResourceClass XBOX_SERIES : PC {
+  }
+  ENTResourceClass PS4 : PC {
+  }
+  ENTResourceClass HEADLESS : PC {
+  }
+ }
+}
