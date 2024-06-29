@@ -1,0 +1,4 @@
+SCR_FactionManager FactionManager_Editor1 : "{4A188E44289B9A50}Prefabs/MP/Managers/Factions/FactionManager_Editor.et" {
+}
+PS_GameModeReplayView PS_GameModeReplayView1 : "{92AD377C6AD68CDA}PS_GameModeReplayView.et" {
+}

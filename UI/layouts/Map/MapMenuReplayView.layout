@@ -32,17 +32,25 @@ FrameWidgetClass {
   FrameWidgetClass "{5EBA0AF691A4AA2C}" : "{2F8AEE78FF5A8104}UI/layouts/Map/ToolMenu.layout" {
    Name "ToolMenu"
    Slot FrameWidgetSlot "{59107CDEE98682C5}" {
-    Anchor 0.5 0 0.5 0
+    Anchor 0 0 0 0
     OffsetLeft 0
-    PositionY 0
     OffsetTop 0
     SizeX 100
     OffsetRight -100
     SizeY 30
     OffsetBottom -30
    }
-   "Is Visible" 0
    {
+    FrameWidgetClass "{590E7E6C0F9CBE13}" {
+     Prefab "{590E7E6C0F9CBE13}"
+     Slot FrameWidgetSlot "{59107CC3B4EFA8B6}" {
+      PositionX -100
+      OffsetLeft -100
+      OffsetTop 0
+      OffsetRight 70
+      OffsetBottom -30
+     }
+    }
     RichTextWidgetClass "{59107CD34D2BC078}" {
      Prefab "{59107CD34D2BC078}"
      Slot FrameWidgetSlot "{59107CC3B4EF4150}" {
