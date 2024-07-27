@@ -1,0 +1,6 @@
+SCR_FactionManager FactionManager_Editor1 : "{4A188E44289B9A50}Prefabs/MP/Managers/Factions/FactionManager_Editor.et" {
+ coords 1879.964 17.349 1865.586
+}
+PS_GameModeReplayView PS_GameModeReplayView1 : "{92AD377C6AD68CDA}Prefabs/MP/PS_GameModeReplayView.et" {
+ coords 1880.244 24.181 1865.283
+}

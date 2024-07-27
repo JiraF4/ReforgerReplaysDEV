@@ -1,0 +1,17 @@
+SCR_MapEntity MapEntity : "{731564B66F91B107}Prefabs/World/Game/MapEntity.et" {
+ coords 1371.736 0 1975.359
+ "Map Geometry Data" "{8261346D371D1B82}Terrain/Bileca Border.topo"
+ "Satellite background image" "{BA7FD99EFEA53392}Terrain/AnyConv.com__Bileca Border.edds"
+ {
+  CommentEntity {
+   coords 0 1 0
+   m_Comment "MapEntity: "\
+   "Set up map textures"
+   m_Color 0 0 0
+   m_FaceCamera 1
+   m_TextBackground 1
+   m_BackgroundColor 1 0.6 0
+   m_BackgroundTransparency 0
+  }
+ }
+}
