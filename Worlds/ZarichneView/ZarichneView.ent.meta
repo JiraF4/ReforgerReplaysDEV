@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{4231F91B06F51A18}Worlds/BazranView/BazranView.ent"
+ Name "{3FEF58BD8BD29778}Worlds/Zarichne/ZarichneView.ent"
  Configurations {
   ENTResourceClass PC {
   }
@@ -8,6 +8,8 @@ MetaFileClass {
   ENTResourceClass XBOX_SERIES : PC {
   }
   ENTResourceClass PS4 : PC {
+  }
+  ENTResourceClass PS5 : PC {
   }
   ENTResourceClass HEADLESS : PC {
   }
