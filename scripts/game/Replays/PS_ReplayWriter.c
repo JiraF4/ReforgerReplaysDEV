@@ -1,9 +1,10 @@
+#define PS_REPLAYS
+
 [ComponentEditorProps(category: "GameScripted/Callsign", description: "")]
 class PS_ReplayWriterClass: ScriptComponentClass
 {
 	
 };
-
 
 // Replay file main handler
 class PS_ReplayWriter : ScriptComponent
