@@ -4,7 +4,7 @@ ImageSetClass {
   ImageSetTextureClass {
    screenSize FHD
    size 4096 4097
-   path "{D7F4F37BA62107AB}UI/Icons/PS_Atlas_x128.edds"
+   path "{5AEB9F4564CF5A5F}UI/Icons/Replay_Atlas_x128.edds"
   }
  }
  Images {
