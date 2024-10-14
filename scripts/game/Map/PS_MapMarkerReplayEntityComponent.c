@@ -105,7 +105,7 @@ class PS_MapMarkerReplayEntityComponent : SCR_ScriptedWidgetComponent
 	{
 		if (state == EDamageState.DESTROYED)
 		{
-			m_wMarkerIcon.LoadImageFromSet(0, "{ED7A1DA5BC4CCBA0}UI/Icons/PS_Atlas.imageset", "DEAD");
+			m_wMarkerIcon.LoadImageFromSet(0, "{629CDE8BEAA36D23}UI/Icons/PS_Atlas.imageset", "DEAD");
 			m_wRoot.SetOpacity(0.3);
 		}
 	}
