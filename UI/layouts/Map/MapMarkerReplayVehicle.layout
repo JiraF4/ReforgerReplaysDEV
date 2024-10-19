@@ -35,7 +35,7 @@ FrameWidgetClass {
       OffsetBottom -60
      }
      Clipping False
-     Texture "{ED7A1DA5BC4CCBA0}UI/Icons/PS_Atlas.imageset"
+     Texture "{629CDE8BEAA36D23}UI/Icons/Replay_Atlas.imageset"
      Image "HELICOPTER"
      Size 128 128
     }

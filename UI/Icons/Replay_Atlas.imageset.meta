@@ -1,5 +1,5 @@
 MetaFileClass {
- Name "{ED7A1DA5BC4CCBA0}UI/Icons/PS_Atlas.imageset"
+ Name "{629CDE8BEAA36D23}UI/Icons/Replay_Atlas.imageset"
  Configurations {
   ImageSetResourceClass PC {
   }
@@ -10,6 +10,8 @@ MetaFileClass {
   ImageSetResourceClass PS4 : PC {
   }
   ImageSetResourceClass HEADLESS : PC {
+  }
+  ImageSetResourceClass PS5 : PC {
   }
  }
 }

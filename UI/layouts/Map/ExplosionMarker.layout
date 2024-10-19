@@ -44,7 +44,7 @@ FrameWidgetClass {
      }
      Clipping False
      Color 0.698 0.175 0 1
-     Texture "{ED7A1DA5BC4CCBA0}UI/Icons/PS_Atlas.imageset"
+     Texture "{629CDE8BEAA36D23}UI/Icons/Replay_Atlas.imageset"
      Image "EXPLOSION"
      Size 128 128
     }

@@ -2,7 +2,7 @@
 class PS_MapMarkerReplayVehicleComponent : PS_MapMarkerReplayEntityComponent
 {
 	EVehicleType m_eVehicleType;
-	ResourceName m_rImageSet = "{ED7A1DA5BC4CCBA0}UI/Icons/Replay_Atlas.imageset";
+	ResourceName m_rImageSet = "{629CDE8BEAA36D23}UI/Icons/Replay_Atlas.imageset";
 	
 	void SetVehicleType(EVehicleType vehicleType)
 	{
